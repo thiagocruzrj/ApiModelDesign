@@ -22,12 +22,13 @@ namespace ApiDapper.Application
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            /*
-            Adicionando a interface do repositório de pessoa no contexto de injeção de dependências do .net core.
+             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
 
-            Assim, qualquer classe que referenciar esta interface em seu contrutor, ver PessoaController, receberá
-            uma instância de PessoaRepository onde a connection string é obtida do arquivo de configurações appsettings.json
-             */
             services.AddScoped<IPessoaRepository>(factory => {
                 return new PessoaRepository(Configuration.GetConnectionString("MySqlDbConnection"));
             });
